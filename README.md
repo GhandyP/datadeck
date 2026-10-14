@@ -25,8 +25,8 @@ does not contain is **rejected with the reason** and kept off the deck:
 
 ```text
 C1  Total revenue reached 11,695,000.        Verified   F-05
-C2  LATAM grew fastest at +11.8%.            Verified   F-08
-C3  Europe declined 7.3%.                    Rejected   F-07
+C2  LATAM grew fastest, at 11.8%.            Verified   F-10
+C3  Europe declined 7.3%.                    Rejected   F-09
     the claim states 7.3%, which the cited source data
     does not contain; it says -2.1%
 ```
@@ -49,12 +49,16 @@ know before presenting.
 | `internal/agent` | The only place a model is called: one Google ADK v2 agent, one output schema, no tools. | The prompt and the schema are pure functions, so the whole model boundary is testable without a network. |
 | `internal/plan` | Holds the deck contract and the rule that makes it honest: a claim may only state a figure its cited evidence contains. | The validation is the product. It is pure, table-driven and exhaustively tested. |
 | `internal/deck` | Renders the plan as one HTML file: a shell plus the plan as JSON. | A rejected claim cannot reach a slide because the renderer only ever receives verified ones. |
-| `internal/theme` | The single stylesheet both the app and the exported deck are built from. | The two surfaces cannot drift apart. |
+| `internal/theme` | The tokens, the shared primitives and the two embedded faces both surfaces are built from. | The two surfaces cannot drift apart, and neither depends on a font host. |
 
 Facts are computed with exact integer arithmetic scaled by each column's decimal
 count, not through floats, so a total is the sum of what you supplied. A column
 written `1,234.50` and one written `1.234,50` each keep their own convention, and
 a column of percentages never gets a meaningless sum.
+
+The exported deck carries its fonts inside the file as data URIs, so it renders
+in its own voice on a machine that has none of them installed — and still reaches
+no host.
 
 ## Requirements
 
