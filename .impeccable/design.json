@@ -1,0 +1,105 @@
+{
+  "name": "DataDeck",
+  "version": 1,
+  "source": "internal/theme/tokens.css",
+  "northStar": "A case file for numbers: the figure and the cell it came from are one gesture apart.",
+  "ramps": {
+    "shell": {
+      "wash": "#E8ECF8",
+      "base": "#20348F",
+      "deep": "#17265F",
+      "ink": "#FFFFFF"
+    },
+    "manila": {
+      "wash": "#F2E3C6",
+      "base": "#C98B2E",
+      "role": "provenance only; spent nowhere else in either surface"
+    },
+    "ground": {
+      "base": "#E7E8E6",
+      "panel": "#FFFFFF",
+      "rule": "#C9CCC7",
+      "ruleStrong": "#9AA19B"
+    },
+    "ink": {
+      "base": "#15181B",
+      "soft": "#5A6068"
+    },
+    "state": {
+      "verified": "#1E6B4F",
+      "verifiedWash": "#DCEBE3",
+      "alert": "#B3261E",
+      "alertWash": "#F7DEDA"
+    }
+  },
+  "elevation": {
+    "shadows": {},
+    "note": "There is no elevation anywhere. Separation is a 1px hairline; emphasis is a wash. A shadow, blur, gradient or translucent panel is a system violation, not a variant."
+  },
+  "motion": {
+    "durations": { "instant": "0.01ms", "none": "0ms" },
+    "easing": { "default": "none" },
+    "note": "Neither surface animates. The provenance reveal, the slide change and the step change are immediate state changes; nothing moves, so prefers-reduced-motion has nothing to disable and is honoured by construction."
+  },
+  "breakpoints": {
+    "appStack": "980px",
+    "deckNarrow": "720px",
+    "print": "one slide per page"
+  },
+  "rules": [
+    "The manila rule: manila marks provenance and nothing else.",
+    "The word rule: colour never carries a state alone; every state also says its name in code type.",
+    "The narrow rule: Archivo Narrow marks machine identity only — codes, steps, column headers — never prose.",
+    "The rule rule: separate with hairlines, never with space, shadow or rounding."
+  ],
+  "dos": [
+    "Use a token for every colour, size and rule width.",
+    "Keep tabular numerals on every figure.",
+    "Keep the provenance reveal operable by keyboard and announce what it revealed.",
+    "Keep a rejected claim in the app and out of the deck."
+  ],
+  "donts": [
+    "No shadows, gradients, blur, rounded corners or pill shapes.",
+    "Never spend manila on decoration, headings or the band.",
+    "Never set prose in Archivo Narrow.",
+    "Never introduce a second saturated field colour."
+  ],
+  "components": [
+    {
+      "name": "claim-provenance",
+      "role": "The signature control: the evidence ids a claim rests on.",
+      "html": "<button class=\"dd-code claim__prov\" type=\"button\" aria-pressed=\"false\">F-05</button>",
+      "css": ".claim__prov{font-family:var(--font-code);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.09em;color:var(--manila);background:var(--manila-wash);border:var(--rule-w) solid var(--manila);border-radius:var(--radius);padding:3px 8px;cursor:pointer}.claim__prov[aria-pressed=\"true\"]{background:var(--manila);color:#fff}"
+    },
+    {
+      "name": "button-primary",
+      "role": "The one action per work area.",
+      "html": "<button class=\"primary\" type=\"button\">Build the deck</button>",
+      "css": ".primary{font:inherit;font-size:14px;font-weight:600;width:100%;color:var(--shell-ink);background:var(--shell);border:var(--rule-w) solid var(--shell-deep);border-radius:var(--radius);padding:9px 14px;cursor:pointer}.primary:hover:not(:disabled){background:var(--shell-deep)}.primary:disabled{background:var(--panel);color:var(--ink-soft);border-color:var(--rule-strong);cursor:not-allowed}"
+    },
+    {
+      "name": "field",
+      "role": "A square panel input with a hairline.",
+      "html": "<label class=\"field\"><span class=\"field__label\">Deck title</span><input id=\"title\" type=\"text\"></label>",
+      "css": "input[type=text],textarea{font:inherit;font-size:14px;width:100%;color:var(--ink);background:var(--panel);border:var(--rule-w) solid var(--rule-strong);border-radius:var(--radius);padding:7px 9px}"
+    },
+    {
+      "name": "band",
+      "role": "The exhibit band: the page's one saturated field.",
+      "html": "<header class=\"band\"><span class=\"band__mark\">DataDeck</span><span class=\"band__code dd-code\">EX-7F3A21</span></header>",
+      "css": ".band{display:flex;align-items:center;gap:24px;padding:12px 24px;background:var(--shell);color:var(--shell-ink);border-bottom:2px solid var(--shell-deep)}"
+    },
+    {
+      "name": "sources-reveal",
+      "role": "What a provenance mark opens: the cited facts as ruled rows.",
+      "html": "<div class=\"sources\"><div class=\"sources__row\"><span class=\"dd-code sources__id\">F-05</span><span class=\"sources__label\">Revenue · total</span><span class=\"sources__value\">11,695,000</span></div></div>",
+      "css": ".sources{padding:8px 10px;background:var(--panel);border:var(--rule-w) solid var(--manila);font-size:13px}.sources__row{display:flex;gap:10px;align-items:baseline;padding:3px 0;border-top:var(--rule-w) solid var(--rule)}"
+    },
+    {
+      "name": "source-cell-highlight",
+      "role": "The cells a selected claim rests on.",
+      "html": "<td class=\"is-source\">4820000</td>",
+      "css": "tr.is-source td,th.is-source{background:var(--manila-wash);box-shadow:inset 3px 0 0 var(--manila)}"
+    }
+  ]
+}
