@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DataDeck — turn a table into a deck</title>
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+
+<header class="band">
+  <span class="band__mark">DataDeck</span>
+  <span class="band__code dd-code" id="code" hidden>—</span>
+  <nav class="steps" aria-label="Progress">
+    <ol>
+      <li class="step is-active" id="step-1"><span class="dd-code">1</span>Source</li>
+      <li class="step" id="step-2"><span class="dd-code">2</span>Plan</li>
+      <li class="step" id="step-3"><span class="dd-code">3</span>Deck</li>
+    </ol>
+  </nav>
+</header>
+
+<p class="notice" id="notice" role="status" hidden></p>
+
+<main class="work">
+
+  <section class="area" aria-labelledby="source-head">
+    <h2 class="area__head dd-code" id="source-head">Source</h2>
+
+    <label class="field">
+      <span class="field__label">Deck title</span>
+      <input id="title" type="text" autocomplete="off" placeholder="Q3 2026 revenue review">
+    </label>
+
+    <label class="field">
+      <span class="field__label">Audience</span>
+      <input id="audience" type="text" autocomplete="off" value="Board">
+    </label>
+
+    <label class="field">
+      <span class="field__label">Paste the data</span>
+      <span class="field__hint">Comma, semicolon, tab or pipe separated, a Markdown table, or JSON records.</span>
+      <textarea id="data" rows="10" spellcheck="false" placeholder="Region,Revenue,Change&#10;North America,4820000,+6.4%&#10;Europe,3140000,-2.1%"></textarea>
+    </label>
+
+    <button class="primary" id="generate" type="button">Build the deck</button>
+
+    <div id="table-wrap" hidden>
+      <h3 class="area__sub dd-code">Parsed source</h3>
+      <div class="table-scroll">
+        <table id="source-table"></table>
+      </div>
+      <p class="hint">Select a claim's provenance code to light the cells it rests on.</p>
+    </div>
+  </section>
+
+  <section class="area" aria-labelledby="plan-head">
+    <h2 class="area__head dd-code" id="plan-head">Plan</h2>
+    <p class="empty" id="plan-empty">The claims appear here once the deck is built. Each one carries the code of the source values it rests on, and a claim whose figure is not in your data is rejected here instead of reaching a slide.</p>
+    <div id="plan"></div>
+  </section>
+
+  <section class="area" aria-labelledby="deck-head">
+    <h2 class="area__head dd-code" id="deck-head">Deck</h2>
+    <dl class="summary" id="summary" hidden></dl>
+    <button class="primary" id="download" type="button" disabled>Download deck.html</button>
+    <p class="hint">One file, no external hosts. Open it by double-clicking it.</p>
+    <p class="hint">A draft is a draft: review every claim before you present it.</p>
+  </section>
+
+</main>
+
+<p class="announce" id="announce" role="status" aria-live="polite"></p>
+
+<script src="/app.js"></script>
+</body>
+</html>

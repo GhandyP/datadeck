@@ -1,0 +1,342 @@
+/* The DataDeck app shell. Tokens come from /tokens.css. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* The exhibit band: the page's one saturated field, and the deck's identity. */
+.band {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: var(--shell);
+  color: var(--shell-ink);
+  border-bottom: 2px solid var(--shell-deep);
+  flex-wrap: wrap;
+}
+
+.band__mark {
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.01em;
+}
+
+.band__code {
+  font-size: 14px;
+  border: var(--rule-w) solid currentColor;
+  padding: 2px 8px;
+}
+
+.steps { margin-left: auto; }
+.steps ol {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.step {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-size: 14px;
+  color: var(--shell-wash);
+  padding-bottom: 4px;
+  border-bottom: 3px solid transparent;
+}
+.step .dd-code { font-size: 12px; }
+.step.is-active {
+  color: var(--shell-ink);
+  font-weight: 600;
+  border-bottom-color: var(--shell-ink);
+}
+.step.is-done { color: var(--shell-ink); }
+
+.notice {
+  margin: 0;
+  padding: 12px 24px;
+  background: var(--alert-wash);
+  color: var(--alert);
+  border-bottom: var(--rule-w) solid var(--alert);
+  font-size: 15px;
+}
+.notice[hidden] { display: none; }
+
+/* Three ruled work areas: the case file's three parts. */
+.work {
+  display: grid;
+  grid-template-columns: minmax(300px, 1fr) minmax(340px, 1.15fr) minmax(230px, 0.75fr);
+  gap: 0;
+  align-items: start;
+}
+
+.area {
+  padding: 20px 24px 28px;
+  border-right: var(--rule-w) solid var(--rule);
+  min-width: 0;
+}
+.area:last-child { border-right: 0; }
+
+.area__head {
+  margin: 0 0 14px;
+  font-size: 13px;
+  color: var(--ink);
+  border-bottom: var(--rule-w) solid var(--rule-strong);
+  padding-bottom: 7px;
+}
+
+.area__sub {
+  margin: 22px 0 8px;
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+
+/* Fields: ruled, square, plainly labelled. */
+.field {
+  display: block;
+  margin-bottom: 14px;
+}
+.field__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.field__hint {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+  font: inherit;
+  font-size: 14px;
+  width: 100%;
+  color: var(--ink);
+  background: var(--panel);
+  border: var(--rule-w) solid var(--rule-strong);
+  border-radius: var(--radius);
+  padding: 7px 9px;
+}
+
+textarea {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+.primary {
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  color: var(--shell-ink);
+  background: var(--shell);
+  border: var(--rule-w) solid var(--shell-deep);
+  border-radius: var(--radius);
+  padding: 9px 14px;
+  cursor: pointer;
+}
+.primary:hover:not(:disabled) { background: var(--shell-deep); }
+.primary:disabled {
+  background: var(--panel);
+  color: var(--ink-soft);
+  border-color: var(--rule-strong);
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin: 10px 0 0;
+}
+
+.empty {
+  font-size: 14px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* The parsed source: ruled rows, tabular figures, provenance in manila. */
+.table-scroll { overflow-x: auto; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 13px;
+}
+th, td {
+  text-align: left;
+  padding: 6px 10px 6px 0;
+  border-bottom: var(--rule-w) solid var(--rule);
+  white-space: nowrap;
+}
+th {
+  font-family: var(--font-code);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 11px;
+  color: var(--ink-soft);
+  border-bottom-color: var(--rule-strong);
+}
+td.numeric { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* The signature move: the cells a selected claim rests on. The wash marks them
+   on its own; an extra edge would be the tell the detector looks for. */
+tr.is-source td,
+th.is-source {
+  background: var(--manila-wash);
+}
+
+/* The plan: one ruled block per slide, one row per claim. */
+.slide-block { margin-bottom: 22px; }
+
+.slide-block__head {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin: 0 0 6px;
+}
+.slide-block__number {
+  font-size: 12px;
+  color: var(--ink-soft);
+}
+.slide-block__title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.claim {
+  border-top: var(--rule-w) solid var(--rule);
+  padding: 9px 0 9px 10px;
+  border-left: var(--rule-w) solid transparent;
+}
+.claim:last-child { border-bottom: var(--rule-w) solid var(--rule); }
+
+.claim.is-selected {
+  border-left-color: var(--manila);
+  background: var(--manila-wash);
+}
+.claim.is-rejected {
+  border-left-color: var(--alert);
+  background: var(--alert-wash);
+}
+
+.claim__text {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+
+.claim__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.claim__prov {
+  font: inherit;
+  font-size: 11px;
+  font-family: var(--font-code);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--manila-ink);
+  background: var(--manila-wash);
+  border: var(--rule-w) solid var(--manila);
+  border-radius: var(--radius);
+  padding: 2px 7px;
+  cursor: pointer;
+}
+.claim__prov[aria-pressed="true"] {
+  background: var(--manila-ink);
+  color: var(--panel);
+}
+
+.claim__status {
+  font-family: var(--font-code);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+.claim__status--verified { color: var(--verified); }
+.claim__status--rejected { color: var(--alert); }
+
+.claim__reason {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: var(--alert);
+}
+
+.sources {
+  margin: 8px 0 0;
+  padding: 8px 10px;
+  background: var(--panel);
+  border: var(--rule-w) solid var(--manila);
+  font-size: 13px;
+}
+.sources[hidden] { display: none; }
+.sources__row {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding: 3px 0;
+  border-top: var(--rule-w) solid var(--rule);
+}
+.sources__row:first-child { border-top: 0; }
+.sources__id { font-size: 11px; color: var(--manila-ink); }
+.sources__label { flex: 1; min-width: 0; }
+.sources__value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* The deck summary. */
+.summary {
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+.summary[hidden] { display: none; }
+.summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: var(--rule-w) solid var(--rule);
+}
+.summary dt { color: var(--ink-soft); }
+.summary dd {
+  margin: 0;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.announce {
+  position: absolute;
+  left: -9999px;
+}
+
+@media (max-width: 980px) {
+  .work { grid-template-columns: 1fr; }
+  .area {
+    border-right: 0;
+    border-bottom: var(--rule-w) solid var(--rule);
+  }
+}
+
+@media print {
+  .band, .primary, .hint, .announce { display: none; }
+  body { background: #fff; }
+}
