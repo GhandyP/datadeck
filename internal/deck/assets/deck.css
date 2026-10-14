@@ -1,0 +1,241 @@
+/* The exported deck. Tokens come first, inlined by the renderer. */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body { margin: 0; padding: 0; color: var(--ink); }
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--shell);
+  color: var(--shell-ink);
+  padding: 8px 12px;
+  z-index: 10;
+}
+.skip:focus { left: 0; }
+
+/* The exhibit band: the deck's identity and its one saturated field. */
+.band {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gutter);
+  padding: 10px 24px;
+  background: var(--shell);
+  color: var(--shell-ink);
+  border-bottom: 2px solid var(--shell-deep);
+}
+.band__code { font-size: 15px; }
+.band__title {
+  flex: 1;
+  font-weight: 500;
+  font-size: 15px;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.band__draft {
+  font-size: 13px;
+  border: var(--rule-w) solid currentColor;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.slides { flex: 1; }
+
+/* One slide owns the frame; the chrome retreats to the band and the controls. */
+.slide {
+  min-height: calc(100vh - 116px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px;
+}
+.slide[hidden] { display: none; }
+
+.slide__inner {
+  width: 100%;
+  max-width: 1040px;
+}
+
+.slide__title {
+  font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 28px;
+  border-bottom: var(--rule-w) solid var(--rule-strong);
+  padding-bottom: 18px;
+}
+
+.claims {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.claim {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 8px var(--gutter);
+  padding: 16px 0;
+  border-top: var(--rule-w) solid var(--rule);
+}
+.claim:first-child { border-top: 0; }
+
+.claim__text {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  line-height: 1.4;
+}
+
+/* The provenance mark: a button, so it is reachable and operable by keyboard. */
+.claim__prov {
+  cursor: pointer;
+  background: var(--manila-wash);
+  color: var(--manila-ink);
+  border: var(--rule-w) solid var(--manila);
+  padding: 3px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.claim__prov[aria-expanded="true"] {
+  background: var(--manila-ink);
+  color: var(--panel);
+}
+
+/* The reveal: exactly which source values support the claim. */
+.sources {
+  grid-column: 1 / -1;
+  border: var(--rule-w) solid var(--manila);
+  background: var(--panel);
+  padding: 10px 14px;
+  margin-top: 4px;
+}
+.sources[hidden] { display: none; }
+
+.sources__head {
+  color: var(--manila-ink);
+  font-size: 12px;
+  margin: 0 0 6px;
+}
+
+.sources__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sources__row {
+  display: grid;
+  grid-template-columns: 56px 1fr auto;
+  gap: var(--gutter);
+  padding: 4px 0;
+  border-top: var(--rule-w) solid var(--rule);
+  font-size: 14px;
+}
+.sources__row:first-child { border-top: 0; }
+.sources__id { color: var(--manila-ink); font-size: 12px; }
+.sources__value { font-weight: 600; }
+
+.slide__notes {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 15px;
+  border-top: var(--rule-w) solid var(--rule);
+  padding-top: 14px;
+}
+
+.controls {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  background: var(--panel);
+  border-top: var(--rule-w) solid var(--rule-strong);
+}
+
+.control {
+  font: inherit;
+  font-size: 14px;
+  background: var(--panel);
+  color: var(--ink);
+  border: var(--rule-w) solid var(--rule-strong);
+  padding: 6px 14px;
+  cursor: pointer;
+}
+.control:hover { background: var(--ground); }
+.control:disabled { color: var(--ink-soft); cursor: default; }
+
+.index {
+  display: flex;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+.index button {
+  font: inherit;
+  font-size: 13px;
+  width: 30px;
+  height: 30px;
+  background: var(--panel);
+  color: var(--ink);
+  border: var(--rule-w) solid var(--rule-strong);
+  cursor: pointer;
+}
+.index button[aria-current="true"] {
+  background: var(--shell);
+  color: var(--shell-ink);
+  border-color: var(--shell);
+}
+
+.counter {
+  margin: 0 0 0 auto;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.fallback {
+  max-width: 1040px;
+  margin: 24px auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 720px) {
+  .band { flex-wrap: wrap; gap: 8px; }
+  .claim { grid-template-columns: 1fr; }
+  .sources__row { grid-template-columns: 48px 1fr; }
+  .sources__value { grid-column: 2; }
+}
+
+/* Printing turns the deck back into pages: one slide each, all of them. */
+@media print {
+  body { background: #fff; display: block; }
+  .band { border-bottom-width: 2px; }
+  .controls, .skip { display: none; }
+  .slide {
+    min-height: 0;
+    page-break-after: always;
+    break-after: page;
+    padding: 0 0 24px;
+  }
+  .slide[hidden] { display: flex; }
+  .sources[hidden] { display: block; }
+  .claim__prov { border-color: var(--rule-strong); }
+}
