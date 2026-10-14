@@ -1,0 +1,105 @@
+/* DataDeck design tokens — Exhibit & Chain of Custody.
+   Frozen contract: the app shell and the exported deck both load this file and
+   neither invents values outside it. Manila is reserved for provenance and is
+   spent nowhere else. */
+:root {
+  /* Shell: the exhibit band, navigation, primary action, selection. */
+  --shell: #20348f;
+  --shell-deep: #17265f;
+  --shell-ink: #ffffff;
+  --shell-wash: #e8ecf8;
+
+  /* Ground and panels: a file room, not a dashboard. */
+  --ground: #e7e8e6;
+  --panel: #ffffff;
+  --rule: #c9ccc7;
+  --rule-strong: #9aa19b;
+
+  /* Ink. */
+  --ink: #15181b;
+  --ink-soft: #5a6068;
+
+  /* Provenance. This is the signature move's colour and nothing else uses it.
+     The wash fills, the base draws the rule, and the ink is what text sets in:
+     manila itself is too light to read as text on its own wash. */
+  --manila: #c98b2e;
+  --manila-wash: #f2e3c6;
+  --manila-ink: #7a4e0c;
+
+  /* Claim states. */
+  --alert: #b3261e;
+  --alert-wash: #f7deda;
+  --verified: #1e6b4f;
+  --verified-wash: #dcebe3;
+
+  /* Type. Archivo Narrow is for codes, step numbers and column headers only. */
+  --font-text: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-code: "Archivo Narrow", "Archivo", system-ui, sans-serif;
+
+  /* Ruled density: no radius, no shadow, hairline rules. */
+  --step: 4px;
+  --gutter: 16px;
+  --rule-w: 1px;
+  --radius: 0;
+  --focus-w: 2px;
+}
+
+/* Shared primitives. Both surfaces use these instead of re-inventing them. */
+
+.dd-code {
+  font-family: var(--font-code);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-num {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.dd-rule {
+  border: 0;
+  border-top: var(--rule-w) solid var(--rule);
+  margin: 0;
+}
+
+/* The provenance mark: the only place manila appears. */
+.dd-prov {
+  font-family: var(--font-code);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: var(--manila-ink);
+  background: var(--manila-wash);
+  border: var(--rule-w) solid var(--manila);
+  padding: 1px 6px;
+}
+
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--focus-w) solid var(--shell);
+  outline-offset: 1px;
+}
+
+/* The browser's own surfaces carry the design too. */
+::selection {
+  background: var(--shell);
+  color: var(--shell-ink);
+}
+
+input,
+textarea {
+  caret-color: var(--shell);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
